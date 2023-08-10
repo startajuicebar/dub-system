@@ -1,0 +1,27 @@
+{:dev true
+ :port 3000
+
+ :nrepl-port 7070
+
+ :pg {:user "postgres"
+      :password "postgres"
+      :name "postgres"
+      :host "localhost"
+      :port 5432}
+
+ :api-key "secret"
+
+ :openai {:api-key "API_KEY"}
+ :eleven-labs {:api-key "API_KEY"}
+ :deep-gram {:api-key "API_KEY"}
+
+ :aws {:access-key "ACCESS_KEY"
+       :secret-key "SECRET_KEY"
+       :endpoint "ENDPOINT"
+       :default-bucket-name "BUCKET_NAME"}
+
+ :mux {:access-token "ACCESS_TOKEN"
+       :secret-key "SECRET_KEY"}
+
+;;  
+ }
