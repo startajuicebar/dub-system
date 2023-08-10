@@ -62,11 +62,7 @@
 
 
 
-  (play-audio (generate-audio "Well, as someone who has zero experience------- starting a juice bar---------- knowing anything about running a juice bar."))
-;; => "resources/audio/1691602580954.mp3"
-
-;; => "resources/audio/1691602541459.mp3"
-
+  (play-audio (generate-audio "Well, as someone who has zero experience.......... starting a juice bar---------- knowing anything about running a juice bar."))
 
   (clojure.string/join ["Well, as someone who has zero experience,"
                         "starting a juice bar, knowing anything about running a juice bar, I was a little reluctant to hire someone who I had messed with faced face."
@@ -78,16 +74,6 @@
                         "unafraid to start my juice bar now, but I'm actually looking forward to it. And I think that's the best gift of all. So I highly recommend him to anyone who's considering it."])
 
   "Well, as someone who has zero experience,starting a juice bar, knowing anything about running a juice bar, I was a little reluctant to hire someone who I had messed with faced face.but I will honestly say that my experience with started juice bar has beentop notch professional,informative,helpful,from start to finish. And not only that, I've had a great time. I really enjoyed getting to know the staff and, their willingness and helpfulness has has made it a fun process. So not only am I,unafraid to start my juice bar now, but I'm actually looking forward to it. And I think that's the best gift of all. So I highly recommend him to anyone who's considering it."
-
-
-  ;; => "resources/audio/1690496251326.mp3"
-
-  ;; => Execution error (ExceptionInfo) at slingshot.support/stack-trace (support.clj:201).
-  ;;    clj-http: status 400
-
-  ;; => Execution error (ExceptionInfo) at slingshot.support/stack-trace (support.clj:201).
-  ;;    clj-http: status 400
-
 
 
 
