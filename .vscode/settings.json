@@ -1,0 +1,58 @@
+{
+  "calva.customREPLCommandSnippets": [
+    {
+      "name": "Start dub-box Server",
+      "ns": "user",
+      "repl": "clj",
+      "snippet": "(start)"
+    },
+    {
+      "name": "Stop dub-box Server",
+      "ns": "user",
+      "repl": "clj",
+      "snippet": "(stop)"
+    },
+    {
+      "name": "Restart dub-box Server",
+      "ns": "user",
+      "repl": "clj",
+      "snippet": "(restart)"
+    },
+    {
+      "name": "Open portal",
+      "ns": "user",
+      "repl": "clj",
+      "snippet": "(open-portal)"
+    },
+    {
+      "name": "Clear portal",
+      "ns": "user",
+      "repl": "clj",
+      "snippet": "(clear-portal)"
+    },
+    {
+      "name": "Close portal",
+      "ns": "user",
+      "repl": "clj",
+      "snippet": "(close-portal)"
+    },
+    {
+      "name": "Print env vars",
+      "ns": "props",
+      "repl": "clj",
+      "snippet": "(print-env-vars)"
+    }
+  ],
+  "calva.replConnectSequences": [
+    {
+      "name": "Dub Box - Server",
+      "autoSelectForJackIn": true,
+      "projectType": "Leiningen",
+      "afterCLJReplJackInCode": "(do ((requiring-resolve 'user/start)) (println \"Started Dub Box - API Server!\"))",
+      "menuSelections": {
+        "leinProfiles": ["dev"],
+        "leinAlias": null
+      }
+    }
+  ]
+}

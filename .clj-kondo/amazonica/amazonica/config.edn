@@ -1,0 +1,11 @@
+{:lint-as {amazonica.aws.s3/create-bucket clojure.core/defn
+           amazonica.aws.s3/delete-bucket clojure.core/defn
+           amazonica.aws.s3/list-buckets clojure.core/defn
+           amazonica.aws.s3/put-object clojure.core/defn
+           amazonica.aws.s3/get-object clojure.core/defn
+           amazonica.aws.s3/delete-object clojure.core/defn
+           amazonica.aws.s3/list-objects clojure.core/defn
+           ;; Add other Amazonica functions as needed
+           }
+ :config-paths ["~/.clj-kondo"]
+ :output {:pattern "{{file}}:{{row}}:{{col}}:{{level}}:{{message}}"}}

@@ -1,0 +1,2 @@
+{:lint-as
+ {snitch.core/defn* clojure.core/defn}}

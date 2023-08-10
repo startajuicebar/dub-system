@@ -1,0 +1,139 @@
+(def system-data {:role "system",
+                  :content "It's the year 2023 and you are a chief financial officer and you are helping the user build a financial model. The user will ask you to make changes to their model and you will call functions"})
+
+(def all-functions [{:name "create_new_model"
+                     :description "Create a new model based on a template"
+                     :parameters
+                     {:type "object"
+                      :properties
+                      {:template {:type "string" :enum ["quick" "full" "advanced"] :description "The template to use when creating the new model"}
+                       :start-date {:type "string" :description "The date the model starts in ISO format"}
+                       :end-date {:type "string" :description "The date the model ends in ISO format"}}
+                      :required ["start-date" "end-date"]}}
+
+                    {:name "add_role"
+                     :description "Add a personnel role to the model"
+                     :parameters
+                     {:type "object"
+                      :properties
+                      {:role {:type "string" :description "The standard name of the role"}
+                       :qty {:type "number" :description "The number of roles to add"}
+                       :start-date {:type "string" :description "The date the role starts in ISO format"}
+                       :end-date {:type "string" :description "The date the role ends in ISO format"}}
+                      :required ["role" "start-date"]}}
+
+                    {:name "generate_report"
+                     :description "Generate a report for a specific metric"
+                     :parameters
+                     {:type "object"
+                      :properties
+                      {:metric {:type "string"
+                                :description "The type of metric to report on"
+                                :enum ["revenue" "expenses" "profit" "balance-sheet"]}
+                       :start-date {:type "string" :description "The start date generate the report for in ISO format"}
+                       :end-date {:type "string" :description "The end date generate the report for in ISO format"}}
+                      :required ["metric" "start-date" "end-date"]}}])
+
+
+(comment
+
+  (make-chat-request [{:role "system"
+                       :content "You are trying to get the inventory levels of the following products: \n1. Chorizo wrap from ML Vegan kitchen, it's a collard green wrap. \nYou are calling a local healthfood store and speaking to a store employee. You are to try to get the price and stock count in a nice and pleasant way from the employee."}
+                      {:role "user"
+                       :content "Thank you for calling lassen's, this is Mark, how can I help you?"}]
+                     {:model "gpt-3.5-turbo"})
+
+  (make-function-request [{:role "user"
+                           :content "What's the weather in New York?"}]
+                         [{:name "get_current_weather",
+                           :description "Get the current weather in a given location",
+                           :parameters
+                           {:type "object",
+                            :properties
+                            {:location
+                             {:type "string",
+                              :description "The city and state, e.g. San Francisco, CA"},
+                             :unit {:type "string", :enum ["celsius" "fahrenheit"]}},
+                            :required ["location"]}}])
+
+
+  ;; Can we create a new model?
+  (->> (make-function-request [system-data,
+                               {:role "user"
+                                :content "Create me a 3 year model starting 2022"}]
+                              all-functions)
+       process-function-call)
+  ;; => {:func "create_new_model", :args {:template "full", :start-date "2022-01-01", :end-date "2024-12-31"}}
+
+
+
+  ;; Can we create a new model based on another template?
+  (->> (make-function-request [system-data,
+                               {:role "user"
+                                :content "Create me a quick model 3 year model starting 2022"}]
+                              all-functions)
+       process-function-call)
+  ;; => {:func "create_new_model", :args {:template "quick", :start-date "2022-01-01", :end-date "2024-12-31"}}
+
+
+  ;; Can we create an advanced model
+  (->> (make-function-request [system-data,
+                               {:role "user"
+                                :content "Create me an advanced model 3 year model starting 2020"}]
+                              all-functions)
+       process-function-call)
+  ;; => {:func "create_new_model", :args {:template "advanced", :start-date "2020-01-01", :end-date "2022-12-31"}}
+
+  ;; => {:func "create_new_model", :args {:template "advanced", :start-date "2022-01-01", :end-date "2024-12-31"}}
+
+
+
+  ;; Can we add roles? 
+  (->> (make-function-request [system-data,
+                               {:role "user"
+                                :content "Let's add a sales rep in january"}]
+                              all-functions)
+       process-function-call)
+  ;; => {:func "add_role", :args {:role "sales rep", :start-date "2022-01-01"}}
+
+  (->> (make-function-request [system-data,
+                               {:role "user"
+                                :content "Let's add a sales rep in january 23"}]
+                              all-functions)
+       process-function-call)
+  ;; => {:func "add_role", :args {:role "sales rep", :qty 1, :start-date "2023-01-01"}}
+
+  ;; Can we add roles based on prior context?
+  (->> (make-function-request [system-data,
+                               {:role "user"
+                                :content "Let's add a sales rep in january"}
+                               {:role "assistant"
+                                :content "Sales rep added in 2023-01-01"}
+                               {:role "user"
+                                :content "Let's add two more reps 3 months after that"}]
+                              all-functions)
+       process-function-call)
+  ;; => {:func "add_role", :args {:role "sales rep", :qty 2, :start-date "2023-04-01"}}
+
+
+  ;; Can we ask for a report for a specific metric?
+  (->> (make-function-request [{:role "system",
+                                :content "You are a chief financial officer and you are helping the user build a financial model. The user will ask you to make changes to their model and you will call functions"},
+                               {:role "user"
+                                :content "Let's add a sales rep in january"}
+                               {:role "assistant"
+                                :content "Sales rep added in 2023-01-01"}
+                               {:role "user"
+                                :content "Let's add two more reps 3 months after that"}
+                               {:role "assistant"
+                                :content "2 sales reps added in 2023-04-01"}
+                               {:role "user"
+                                :content "Show me what that does to revenue by 2025"}]
+                              all-functions)
+       process-function-call)
+  ;; => {:func "generate_report", :args {:metric "revenue", :start-date "2023-01-01", :end-date "2025-12-31"}}
+
+
+
+;;Keep from folding
+  )
