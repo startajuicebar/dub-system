@@ -36,10 +36,3 @@
       (do (sh "ffmpeg" "-i" video-url "-vn" "-acodec" (lookup-format format) output-path)
           (io/file output-path))
       nil)))
-
-(comment
-
-  (video->audio "/Users/atd/Documents/projects/sajb/dubbing-system/youtube-channel/sample.mp4" "/Users/atd/Documents/projects/sajb/dubbing-system/sample-audio.flac")
-
-;;Keep from folding
-  )

@@ -181,20 +181,3 @@
                           (parse-string keyword))]
 
     (sp/select-one [:results :utterances] parsed-result)))
-
-(comment
-  #_(io/file "/Users/atd/Documents/projects/sajb/dubbing-system/sample.mp3")
-
-  (audio->text "/Users/atd/Documents/projects/sajb/dubbing-system/media/samples/sample.mp3")
-
-  #_(audio->text "/Users/atd/Documents/projects/sajb/dubbing-system/sample-audio.flac")
-
-
-  #_(generate-audio "Persistence during challenging times is vital for achieving long-term goals. Hardships can be reframed as opportunities for growth, offering unparalleled insights into our capabilities and fostering resilience. Sticking with something tough is not just about overcoming obstacles, but also about personal evolution - it teaches us patience, discipline, and adaptability. Each difficulty conquered bolsters confidence, enhancing our problem-solving skills and decision-making ability. This commitment to stick it out, despite adversity, forms the bedrock of success. Remember, breakthroughs often occur when things seem most dire. Hence, embracing difficulty is essential, turning trials into triumphs and unlocking our full potential.")
-
-
-
-
-
-;;Keep from folding
-  )
